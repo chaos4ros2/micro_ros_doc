@@ -3,12 +3,10 @@ id: license_overview
 title: ライセンスの概略
 ---
 
-
 このページは大まかにmicro-ROSのライセンスの概略を見てみる。法律に関するアドバイスと同等ではないため、実際に自身のmicro-ROSベースのアプリとシステム(i.e. 製品)に使用されるすべてのコンポーネントのライセンス条文を確認しなければならない。
 
 下の構造図はもっとも重要なリポジトリとそれぞれのライセンスをGitHubOrganization/RepositioryName [LicenseName]の形式で列挙した。
 
-![Docusaurus](/img/micro-ROS_license_overview.png)
 
 標準のROS 2から取ったすべてのパッケージはApache 2.0ライセンス。同様に、micro-ROSプロジェクト内で作ったすべてのミドルウェアとクライアントライブラリーパッケージもApache 2.0の元で提供されている。Micro XRCE-DDSと呼ばれるeProsimaが実装するDDS-XRCEも同じくApache 2.0である。
 
@@ -24,7 +22,10 @@ RTOSに関わるとより一層ややこしくなる：micro-ROSビルドツー�
 
 ・NuttXライセンス整理：Apacheソフトウェア財団が開いた2019年12月のインキュベーションにおいて、重要なライセンスの整理作業が行われた。
 　バージョン10.1のChangeLogでは数千のNuttXのファイルが（BSDから）Apache 2.0に変換されたことを示している。それにNuttXに使われている
-　サードパーティのライセンスが強化された。   
-・NuttXとuClibc++: NuttXのバージョン10以前の場合、NuttXでmicro-ROSを利用する場合はLGPLライセンスのuClibc++ライブラリーが必要。   
-・FreeRTOS向けのST専用拡張機能：micro-ROS/freertos_appsリポジトリに様々なマイコン向けの拡張機能が含まれている。STMicroelectronics産マイ　クロコンピューター用のヘッダーファイルはいくつかST’s Ultimate Liberty licenseの下で配布している、それらはSTMicroelectronics産のマイク　ロコンピューターあるいはマイクロプロセッサーデバイス上で単独に実行しなければならない。   
-・Arm® Mbed™ OS内のサードパーティーライセンス：リポジトリルートのLICENSE.mdにサードパーティーのライセンスがリスト化されている。   
+　サードパーティのライセンスが強化された。
+
+・NuttXとuClibc++: NuttXのバージョン10以前の場合、NuttXでmicro-ROSを利用する場合はLGPLライセンスのuClibc++ライブラリーが必要。
+
+・FreeRTOS向けのST専用拡張機能：micro-ROS/freertos_appsリポジトリに様々なマイコン向けの拡張機能が含まれている。STMicroelectronics産マイ　クロコンピューター用のヘッダーファイルはいくつかST’s Ultimate Liberty licenseの下で配布している、それらはSTMicroelectronics産のマイク　ロコンピューターあるいはマイクロプロセッサーデバイス上で単独に実行しなければならない。
+
+・Arm® Mbed™ OS内のサードパーティーライセンス：リポジトリルートのLICENSE.mdにサードパーティーのライセンスがリスト化されている。
