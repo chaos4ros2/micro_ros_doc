@@ -28,3 +28,22 @@ RTOSに関わるとより一層ややこしくなる：micro-ROSビルドツー�
 ・NuttXとuClibc++: NuttXのバージョン10以前の場合、NuttXでmicro-ROSを利用する場合はLGPLライセンスのuClibc++ライブラリーが必要。   
 ・FreeRTOS向けのST専用拡張機能：micro-ROS/freertos_appsリポジトリに様々なマイコン向けの拡張機能が含まれている。STMicroelectronics産マイ　クロコンピューター用のヘッダーファイルはいくつかST’s Ultimate Liberty licenseの下で配布している、それらはSTMicroelectronics産のマイク　ロコンピューターあるいはマイクロプロセッサーデバイス上で単独に実行しなければならない。   
 ・Arm® Mbed™ OS内のサードパーティーライセンス：リポジトリルートのLICENSE.mdにサードパーティーのライセンスがリスト化されている。   
+
+… and in the corresponding tooling:
+… そして通信関係ツールいおいては：
+
+・GPL-licensed build scripts in Zepyhr: The third-party licenses are given directly in the source tree, but 
+　docs.zephyrproject.org/latest/LICENSING.html states explicitly that few build scripts are used under GPL v2.
+・GPL-licensed build tool files in ESP-IDF: The Espressif IoT Development Framework used for the ESP32 includes files 
+　menuconfig (Kconfig) and several other build tooling files licensed under GPL v2 or v3.
+・Static library for Arduino IDE: The micro_ros_arduino repository provides a static library libmicroros.a of the micro-ROS 
+　stack for use with the Arduino IDE. In detail, multiple versions of this library are provided, built for different microcontroller 
+　families using suitable cross-compiler configurations. The list of repositories included in the library can be found in the 
+　built_packages file in the root of the repository.
+・ZepyhrのGPLライセンスビルドスクリプト：サードパーティーのライセンスは直接ソースツリーで示しているが、docs.zephyrproject.org/latest/LICENSING.html
+　からいくつかのビルドスクリプトはGPL v2ライセンスの元で提供していると明言している。
+・ESP-IDFのGPLライセンスビルドツール：ESP32用のEspressif IoT開発フレームワークにはGPL v2あるいはv3ライセンスのカーネルのコンフィグレーション(Kconfig)
+　および複数のビルドツールファイルが含まれている。
+・Arduino IDE向けの静的ライブラリー：libmicroros.aライブラリーはArduino IDEでmicro-ROSを使用する静的のライブラリーであるlibmicroros.aを
+　提供している。このライブラリーは違うマイコンごとに適切のクロスコンパイル設定でビルドした複数のバージョンが存在している。ライブラリーのリポジトリ
+　のリストを該ライブラリーのリポジトリのルートにあるbuilt_packagesにある。
