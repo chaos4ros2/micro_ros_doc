@@ -41,3 +41,12 @@ title: ROS 2 Feature Comparison
 | マルチDDS実装のサポート、ランタイム時に選択可能 | ✓ | 理論上Micro XRCE-DDSエージェントを通じてサポート可能だが、コンパイル時のみ。 |
 | 理想ではないネットワーク環境でのQoS設定 | ✓+ | DDS-XRCEワイヤプロトコールでの通信に信頼性とベストエフォートの2種類のQoSセマンティクスが提供され、コンパイル時に選択できる。ROS 2データスペースとの通信において以下のチュートリアルに従えばmicro-ROSエンティティーはDDS上すべてのQoSの恩恵を受けることができる。 |
 | DDSセキュリティーサポート | ✓- | セキュリティーはまだクライアントとエージェント間の通信でサポートされていない。しかし、micro-ROSエージェントDDSエンティティーを生成している間はFast DDSのセキュリティー機能の恩恵を受けられる。ロードマップ: Micro XRCE-DDS内セキュリティー機構の実装は将来のリリースで計画されている。 |
+| IDL | ✓+ | micro-ROSはROS 2と同様のIDLタイプをサポートする。クライアント側で行うIDLからC言語への生成は[Micro-XRCE-DDS-Gen](https://github.com/eProsima/Micro-XRCE-DDS-Gen)ライブラリーにより実行される。一方、エージェント側のC++タイプへの生成は[Fast-DDS-Gen](https://github.com/eProsima/Fast-DDS-Gen)で行う。 |
+| ロギング | ∗ | 理論上スタンダードロギング機構の一部として機能するはずだが動的メッセージサイズのせいでMicro-XRCE-DDSではサポートできない。要確認。。。 |
+
+## **汎用ビルドシステムのマルチRTOSサポート**
+
+| 特徴 | | micro-ROSでの可用性 |
+| ---- | ---- | ---- |
+| ビルドシステム | ✓ | micro-ROSはmicro-ROSアプリケーションをビルドする二つの方法を提供する。一つ目の方法はROS 2ワークスペースに統合されている[micro_ros_setup](https://github.com/micro-ROS/micro_ros_setup)を使う。このアプローチでは、NuttX, FreeRTOSとZephyrのビルドシステムはcolconと一体化となる。もう一つの方法はmicro-ROSを外部開発フレームワーク（e.g., ESP-IDFとZephyrビルドシステム）のコンポーネントとして提供する。|
+
