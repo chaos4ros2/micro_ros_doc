@@ -49,4 +49,5 @@ title: ROS 2 Feature Comparison
 | 特徴 | | micro-ROSでの可用性 |
 | ---- | ---- | ---- |
 | ビルドシステム | ✓ | micro-ROSはmicro-ROSアプリケーションをビルドする二つの方法を提供する。一つ目の方法はROS 2ワークスペースに統合されている[micro_ros_setup](https://github.com/micro-ROS/micro_ros_setup)を使う。このアプローチでは、NuttX, FreeRTOSとZephyrのビルドシステムはcolconと一体化となる。もう一つの方法はmicro-ROSを外部開発フレームワーク（e.g., ESP-IDFとZephyrビルドシステム）のコンポーネントとして提供する。|
-
+| ハードウェアサポート | ✓ | micro-ROSは公式的に四つのボードをサポートする。今のところ、すべてのオフィシャルポートはSTのSTM32シリーズおよびEspressifのESP32をベースにしている。[ここ](https://micro.ros.org/docs/overview/hardware/)からより詳しい情報を得られる。多くのポートがユーザーによりコンプリートされている、[コンプリートリスト](https://github.com/micro-ROS/micro_ros_setup#supported-platforms)を確認してくだい。|
+| OSサポート | ✓ | micro-ROSをサポートするOSはRTOSes FreeRTOS、Zephyr、NuttXの他にLinuxとWindowsがある。|
