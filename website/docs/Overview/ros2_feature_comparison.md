@@ -51,3 +51,10 @@ title: ROS 2 Feature Comparison
 | ビルドシステム | ✓ | micro-ROSはmicro-ROSアプリケーションをビルドする二つの方法を提供する。一つ目の方法はROS 2ワークスペースに統合されている[micro_ros_setup](https://github.com/micro-ROS/micro_ros_setup)を使う。このアプローチでは、NuttX, FreeRTOSとZephyrのビルドシステムはcolconと一体化となる。もう一つの方法はmicro-ROSを外部開発フレームワーク（e.g., ESP-IDFとZephyrビルドシステム）のコンポーネントとして提供する。|
 | ハードウェアサポート | ✓ | micro-ROSは公式的に四つのボードをサポートする。今のところ、すべてのオフィシャルポートはSTのSTM32シリーズおよびEspressifのESP32をベースにしている。[ここ](https://micro.ros.org/docs/overview/hardware/)からより詳しい情報を得られる。多くのポートがユーザーによりコンプリートされている、[コンプリートリスト](https://github.com/micro-ROS/micro_ros_setup#supported-platforms)を確認してくだい。|
 | OSサポート | ✓ | micro-ROSをサポートするOSはRTOSes FreeRTOS、Zephyr、NuttXの他にLinuxとWindowsがある。|
+
+## **micro-ROS特定要素**
+
+| 特徴 | | micro-ROSでの可用性 |
+| ---- | ---- | ---- |
+| 純ROS 2移動ロボットのデモ | ✓ | いくつかROS 2とmicro-ROSを両方を使用するロボットのデモが用意されている。https://micro-ros.github.io/docs/tutorials/demos/。 |
+| リアルタイムコードサポート | ✓ | リアルタイム動作はmicro-ROSの一番典型的使い方となる。rclcエグゼキューターはリアルタイム性アプリケーションを実装するための機構を提供してくれる。低レイアにおいては、Micro XRCE-DDSライブラリーはメモリの動的な解放と指定期間のタスクの実行のための機能を提供するための適時性と方法論を示す。 |
