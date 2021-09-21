@@ -60,4 +60,19 @@ title: ROS 2 Feature Comparison
 | リアルタイムコードサポート | ✓ | リアルタイム動作はmicro-ROSの一番典型的使い方となる。rclcエグゼキューターはリアルタイム性アプリケーションを実装するための機構を提供してくれる。低レイアにおいては、Micro XRCE-DDSライブラリーはメモリの動的な解放と指定期間のタスクの実行のための機能を提供するための適時性と方法論を示す。|
 | ベアメタルマイクロコントローラーへのサポート | ✓ | MCU上でROS 2を使えるようになるのはmicro-ROSのコンセプト。micro-ROSのスタンダードのアプローチはRTOSを基底としている（e.g., FreeRTOS, ZephyrあるいはNuttX）。最近の開発はこの縛りを緩そうとしている、Arduino IDEでの実装は正真正銘のベアメタルサポートへの第一歩となる。|
 | 継続的インテグレーション | ✓∘ | 現在、micro-ROSのCIはGitHubとGitLabに分けられているが、2020までにすべてのCIをGitHubの新しいCI actionsに移行するべき。注意すべきなのはスタンダードROS 2向けのパッケージはbuild.ros2.orgにもビルドおよびテストされている。|
-| ドキュメンテーション | ✓ | ---- |
+| ドキュメンテーション | ✓ | [micro-ros.github.io.](https://micro.ros.org/)に概略的なドキュメンテーションがある。もっと詳しい情報を得るには[github.com/micro-ROS/](https://github.com/micro-ROS/)にある関連micro-ROSリポジトリーのREADME.mdを参照してください。ミドルウェアの実装は[Micro XRCE-DDS](https://micro-xrce-dds.docs.eprosima.com/en/latest/)ドキュメンテーションを参照してください。|
+| P2P機能 | ✓∘ | ブロードキャスト機能上に実装されるプロトタイプのP2P機能。QoSをまだ使用できない。ロードマップ：真のPPP接続を実現するためにプロトタイプを強化する。 |
+| メモリフートプリント | ✓ | micro-ROSアプリケーションのメモリ消費に関する総合的な説明を[ここ](https://micro.ros.org/docs/concepts/benchmarking/memo_prof/)で見つけられる。 |
+
+以下、テーブルに使われる記号の凡例を示す。
+
+## **記号凡例**
+
+| ---- | ---- |
+| ✓ | 使用可能。|
+| ✓+ | Agent-DDSとClient-Agent間通信の両方に使用可能。 |
+| ✓- | Agent-DDS間の通信で使用可能可能だが、Client-Agentでは使用不可。 |
+| ✓∘ | 使用可能だが工事中。 |
+| ∘ | まもなく実装。 |
+| ∗ | さらな調査が必要。 |
+| ₋ | 現段階使用不可。 |
