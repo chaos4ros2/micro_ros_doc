@@ -66,8 +66,7 @@ title: ROS 2 Feature Comparison
 
 以下、テーブルに使われる記号の凡例を示す。
 
-## **記号凡例**
-
+| 記号凡例 | |
 | ---- | ---- |
 | ✓ | 使用可能。|
 | ✓+ | Agent-DDSとClient-Agent間通信の両方に使用可能。 |
