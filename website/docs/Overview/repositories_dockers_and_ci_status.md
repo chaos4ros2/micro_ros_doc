@@ -25,3 +25,8 @@ title: Repositories, dockers and CI status
 | Micro XRCE-DDS Agent | eProsimaによるDDS-XRCEのオープンソース実装のエージェント（DDSブリッジ）ライブラリー | ... | ... | ... |
 | rmw-microxrcedds | Micro-XRCE-DDSクライアントライブラリー向けROS 2 RMWアダプター | ... | ... | ... |
 | rosidl-typesupport-microxrcedds | Micro-XRCE-DDSクライアントライブラリー向けROS 2タイプサポート | ... | ... | ... |
+| micro-ROS-Agent | ROS 2へのエージェント（ブリッジ） | ... | ... | ... |
+| micro-ros-msgs | micro-ROSアーキテクチャー限定で使用するROS 2メッセージ | ... | ... | ... |
+| micro_ros_utilities | エンベデッドアプリケーション向けmicro-ROSユーティリティー | ... | ... | ... |
+| system_modes | rclcpp向け拡張 | ... | ... | ... |
+| rclc | 便利な関数および追加コンセプトのセット、たとえばエグゼキューター、C言語内のROS 2 rclの機能を拡張する | ... | ... | ... |
