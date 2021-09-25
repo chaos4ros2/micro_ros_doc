@@ -18,6 +18,9 @@ title: Repositories, dockers and CI status
 | NuttX fork | micro-ROS使用可能のNuttX fork。開発中断中 | ... | ... | ... |
 | Source Code Repositories Status | 多くのリポジトリーをGitHubのmicro-ROSの公式ページgithub.com/micro-ROS/で見つけられる。 | ... | ... | ... |
 
+## **ソースコードリポジトリー状態**
+
+多くのリポジトリーをGitHubのmicro-ROSの公式ページ[github.com/micro-ROS/](https://github.com/micro-ROS/)で見つけられる。
 
 | Repository | Description | CI | Issues / Pull Requests | Documentation |
 | ---- | ---- | ---- | ---- | ---- |
@@ -30,3 +33,15 @@ title: Repositories, dockers and CI status
 | micro_ros_utilities | エンベデッドアプリケーション向けmicro-ROSユーティリティー | ... | ... | ... |
 | system_modes | rclcpp向け拡張 | ... | ... | ... |
 | rclc | 便利な関数および追加コンセプトのセット、たとえばエグゼキューター、C言語内のROS 2 rclの機能を拡張する | ... | ... | ... |
+
+## **デモアプリケーションリポジトリー状態**
+
+| Repository | Description | CI | Issues / Pull Requests | Documentation |
+| ---- | ---- | ---- | ---- | ---- |
+| micro-ROS-demos | 汎用デモ、配信、購読、カスタムメッセージ、サービスおよびグラフィック内省ツールに関するデモのまとめ | ---- | ---- | ---- |
+| freertos_apps | FreeRTOS用デモアプリケーション | ---- | ---- | ---- |
+| zephyr_apps | Zephyr用デモアプリケーション | ---- | ---- | ---- |
+| raspbian_apps | Raspbian用デモアプリケーション | ---- | ---- | ---- |
+| nuttx_apps | NuttX用デモアプリケーション（中断） | ---- | ---- | ---- |
+| Kobuki demo | Olimex基板上でmicro-ROS（NuttX）を使うKobuki (Turtlebot 2) コントローラーアプリケーションデモ | ---- | ---- | ---- |
+| Crazyflie demo  | micro-ROS（FreeRTOS）を使ったCrazyflieドローンデモ！ | ---- | ---- | ---- |
