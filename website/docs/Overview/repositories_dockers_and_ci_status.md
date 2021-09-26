@@ -45,3 +45,24 @@ title: Repositories, dockers and CI status
 | nuttx_apps | NuttX用デモアプリケーション（中断） | ---- | ---- | ---- |
 | Kobuki demo | Olimex基板上でmicro-ROS（NuttX）を使うKobuki (Turtlebot 2) コントローラーアプリケーションデモ | ---- | ---- | ---- |
 | Crazyflie demo  | micro-ROS（FreeRTOS）を使ったCrazyflieドローンデモ！ | ---- | ---- | ---- |
+
+## **Dockerイメージ状態**
+
+| Image | Description | Status |
+| ---- | ---- | ---- |
+| base | ROS 2 Foxy + micro-ROSビルドシステムを含むベースイメージ。他のmicro-ROSイメージのベースとして使用する | ---- | 
+| micro-ros-agent | プリコンパイルしたmicro-ROSエージェントを含むイメージ、スタンドアロンアプリケーションとして使用できる | ---- |
+| micro-ros-demos | プリコンパイルしたmicro-ROSデモアプリケーションを含む、micro-ROSの機能のテストとして使う | ---- |
+| micro-ros-olimex-nuttx | Olimex STM32 E407向けのすぐフラッシュできるデモ | ---- |
+| micro_ros_static_library_builder | Arduino IDEでアプリを開発可能なプリコンパイルmicro-ROSライブラリー | ---- |
+| esp-idf-microros | ESP-IDFビルドシステムのコンポーネントとして使用できる | ---- |
+
+## **ウェブページソースコードリポジトリー状態**
+
+| Repository | Description | CI | Issues | Pull Requests |
+| ---- | ---- | ---- | ---- | ---- |
+| [micro-ROS.github.io](https://github.com/micro-ROS/micro-ROS.github.io)  | Micro-ROS official webpage repository. | ---- | ---- |---- |
+
+## **コードリポジトリーros2/rclcのBloomリリース状態**
+
+リポジトリー[github.com/ros2/rclc/](https://github.com/ros2/rclc)の各アーキテクチャとリリースのBloomリリース状態
