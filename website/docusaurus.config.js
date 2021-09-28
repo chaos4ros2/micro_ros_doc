@@ -28,7 +28,7 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'intro',
+          docId: 'ClientLibrary/introduction_to_client_library',
           position: 'right',
           label: 'Concepts',
         },

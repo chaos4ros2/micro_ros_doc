@@ -9,5 +9,10 @@
     "Overview/ros2_feature_comparison",
     "Overview/repositories_dockers_and_ci_status",
     "Overview/customers_partners_users_and_collaborators"
-  ]
+  ],
+  "concepts": {
+    "Client Library": [
+      "ClientLibrary/introduction_to_client_library"
+    ]
+  }
  }
