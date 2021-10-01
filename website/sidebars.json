@@ -13,7 +13,8 @@
   "concepts": {
     "Client Library": [
       "ClientLibrary/introduction_to_client_library",
-      "ClientLibrary/feature_list"
+      "ClientLibrary/feature_list",
+      "ClientLibrary/execution_management"
     ]
   }
  }
