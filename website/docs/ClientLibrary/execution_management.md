@@ -257,19 +257,98 @@ RCLCエクゼキューターは二つのフェーズに分けられる：設定�
 指定できる。2番目のオプションは、コールバックが一定の割合で呼び出されることが予想される場合に便利。
 
 トリガー条件は、これらのコールバックの処理がいつ開始されるかを定義する。便宜上、いくつかのデフォルト条件が定義されている。
-・trigger_any(default) : コールバックに新しいデータがあると実行開始
-・trigger_all : すべてのコールバックに新しいデータがある場合に実行開始
-・trigger_one(&data) : データを受け取ると実行開始
-・user_defined_function: より複雑なロジックを持つ独自の関数を定義することもできる
+* trigger_any(default) : コールバックに新しいデータがあると実行開始
+* trigger_all : すべてのコールバックに新しいデータがある場合に実行開始
+* trigger_one(&data) : データを受け取ると実行開始
+* user_defined_function: より複雑なロジックを持つ独自の関数を定義することもできる
 
 「trigger_any」はデフォルトのため、rclcppエクゼキューターの現有のセマンティックが選択される。
 
 データ通信セマンティック
-・ROS2 (デフォルト)
-・LET
+* ROS2 (デフォルト)
+* LET
 
 ROS2のrclcpp Executorと互換性を持たせるために、既存のrclcppのセマンティクスを「ROS2」として実装している。つまり、スピン機能により
 DDS-queueは常に新しいデータを監視する（rcl_wait）。新しいデータが利用可能になった場合はコールバックが実行される直前にDDSから取得される
 (rcl_take)。すべてのコールバックは、ユーザーが定義した順序で処理される。これは順序を指定できないrclcpp Executorとの唯一の違いである。
 
 次に、LETのセマンティクスは、処理の開始時にすべての利用可能なデータを取得し（rcl_take）バッファリングする、コールバックはバッファリングされたコピーに対してあらかじめ定義された操作で処理される。
+
+実行フェーズ
+
+主な機能として、エクゼキューターは、ROS2のrclcppエクゼキューターのようにDDS-queueに新しいデータがあるかどうかを常にチェックするスピン
+機能を持っている。トリガー条件が満たされた場合、DDSキューからのすべての利用可能なデータは、ユーザーが定義した順序で指定されたセマンティクス（ROSまたはLET）に従って処理される。すべてのコールバックが実行された後新しいデータないかとDDSは再度チェックされるようになる。
+
+使用可能なスピン機能：
+* spin_some - 一回のみスピンする
+* spin_period - ある周期でスピンする
+* spin - 永久にスピンする
+
+例
+
+以下組込みおよび前述の移動ロボティクスアプリケーションデザインパータン向けのRCLCエクゼキューターのコード例を紹介する。
+
+組込みユースケース
+
+シーケンシャル実行では、プロセス内のタスクの協調的なスケジューリングをモデル化することができる。トリガー条件はプロセスを定期的に起動するために使用され、プロセスはその後すべてのコールバックが事前に定義された順序で実行される。データの通信はLETセマンティクスを用いる。すべてのエクゼキュータはそれぞれのトレッドで実行され、適切な優先順位を割り当てることができる。
+
+下の例では、エクゼキューターは4つのハンドルが設定されている。あるプロセスには3つの購読者sub1、sub2、sub3を持つことを仮定する。順次処理
+の順番は、エクゼクティブに追加された順番で与えられいる。タイマーが周期を定義する。パラメーターのタイマーを持つtrigger_oneが使用されているため、タイマーが準備できたときに、すべてのコールバックが処理される。最後、データ通信セマンティクスLETが定義される。   
+誤字？： A timer timer defines 
+
+```
+#include "rcl_executor/let_executor.h"
+
+// define subscription callback
+void my_sub_cb1(const void * msgin)
+{
+  // ...
+}
+// define subscription callback
+void my_sub_cb2(const void * msgin)
+{
+  // ...
+}
+// define subscription callback
+void my_sub_cb3(const void * msgin)
+{
+  // ...
+}
+
+// define timer callback
+void my_timer_cb(rcl_timer_t * timer, int64_t last_call_time)
+{
+  // ...
+}
+
+// necessary ROS 2 objects
+rcl_context_t context;   
+rcl_node_t node;
+rcl_subscription_t sub1, sub2, sub3;
+rcl_timer_t timer;
+rcle_let_executor_t exe;
+
+// define ROS context
+context = rcl_get_zero_initialized_context();
+// initialize ROS node
+rcl_node_init(&node, &context,...);
+// create subscriptions
+rcl_subscription_init(&sub1, &node, ...);
+rcl_subscription_init(&sub2, &node, ...);
+rcl_subscription_init(&sub3, &node, ...);
+// create a timer
+rcl_timer_init(&timer, &my_timer_cb, ... );
+// initialize executor with four handles
+rclc_executor_init(&exe, &context, 4, ...);
+// define static execution order of handles
+rclc_executor_add_subscription(&exe, &sub1, &my_sub_cb1, ALWAYS);
+rclc_executor_add_subscription(&exe, &sub2, &my_sub_cb2, ALWAYS);
+rclc_executor_add_subscription(&exe, &sub3, &my_sub_cb3, ALWAYS);
+rclc_executor_add_timer(&exe, &timer);
+// trigger when handle 'timer' is ready
+rclc_executor_set_trigger(&exe, rclc_executor_trigger_one, &timer);
+// select LET-semantics
+rclc_executor_data_comm_semantics(&exe, LET);
+// spin forever
+rclc_executor_spin(&exe);
+```
