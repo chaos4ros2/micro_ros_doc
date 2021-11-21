@@ -352,3 +352,105 @@ rclc_executor_data_comm_semantics(&exe, LET);
 // spin forever
 rclc_executor_spin(&exe);
 ```
+
+認知・判断・操作パイプライン
+
+この例では、sense-plan-actのパイプラインをシングルスレッドで実現したい。レーザーとIMU両方のデータを得ると認知フェーズが起動されると
+トリガー条件は発動する。exe_sense、exe_planとexe_actという3つのエクゼキューターが必要である。2つのセンサー取得コールバックsense_Laser
+とsense_IMUはexe_senseエクゼキューターに登録されている。トリガー条件ALLは、これら2つのコールバックのすべてのデータが利用可能な場合に
+のみ、センスフェーズを起動する機能を担う。最後に、whileループとspin_some関数を使って、3つのエクゼキューターを回転させる。
+
+コールバックの定義は省略する。
+
+```
+...
+rcl_subscription_t sense_Laser, sense_IMU, plan, act;
+rcle_let_executor_t exe_sense, exe_plan, exe_act;
+// initialize executors
+rclc_executor_init(&exe_sense, &context, 2, ...);
+rclc_executor_init(&exe_plan, &context, 1, ...);
+rclc_executor_init(&exe_act, &context, 1, ...);
+// executor for sense-phase
+rclc_executor_add_subscription(&exe_sense, &sense_Laser, &my_sub_cb1, ON_NEW_DATA);
+rclc_executor_add_subscription(&exe_sense, &sense_IMU, &my_sub_cb2, ON_NEW_DATA);
+rclc_let_executor_set_trigger(&exe_sense, rclc_executor_trigger_all, NULL);
+// executor for plan-phase
+rclc_executor_add_subscription(&exe_plan, &plan, &my_sub_cb3, ON_NEW_DATA);
+// executor for act-phase
+rclc_executor_add_subscription(&exe_act, &act, &my_sub_cb4, ON_NEW_DATA);
+
+// spin all executors
+while (true) {
+  rclc_executor_spin_some(&exe_sense);
+  rclc_executor_spin_some(&exe_plan);
+  rclc_executor_spin_some(&exe_act);
+}
+```
+
+センサー統合
+
+複数のレートをトリガーで同期させるセンサー統合の例を以下のコードで示す。
+
+```
+...
+rcl_subscription_t aggr_IMU, sense_Laser, sense_IMU;
+rcle_let_executor_t exe_aggr, exe_sense;
+// initialize executors
+rclc_executor_init(&exe_aggr, &context, 1, ...);
+rclc_executor_init(&exe_sense, &context, 2, ...);
+// executor for aggregate IMU data
+rclc_executor_add_subscription(&exe_aggr, &aggr_IMU, &my_sub_cb1, ON_NEW_DATA);
+// executor for sense-phase
+rclc_executor_add_subscription(&exe_sense, &sense_Laser, &my_sub_cb2, ON_NEW_DATA);
+rclc_executor_add_subscription(&exe_sense, &sense_IMU, &my_sub_cb3, ON_NEW_DATA);
+rclc_executor_set_trigger(&exe_sense, rclc_executor_trigger_all, NULL);
+
+// spin all executors
+while (true) {
+  rclc_executor_spin_some(&exe_aggr);
+  rclc_executor_spin_some(&exe_sense);
+}
+```
+
+逐次実行によるセンサー統合の例を以下のコードで示す。注意するのは先にsense_IMUが実行され、IMUメッセージの集約を要求する。次にsense_Laser
+が実行される。レーザーメッセージを受信したときにトリガーは発火する。
+
+```
+...
+rcl_subscription_t sense_Laser, sense_IMU;
+rcle_let_executor_t exe_sense;
+// initialize executor
+rclc_executor_init(&exe_sense, &context, 2, ...);
+// executor for sense-phase
+rclc_executor_add_subscription(&exe_sense, &sense_IMU, &my_sub_cb1, ALWAYS);
+rclc_executor_add_subscription(&exe_sense, &sense_Laser, &my_sub_cb2, ON_NEW_DATA);
+rclc_executor_set_trigger(&exe_sense, rclc_executor_trigger_one, &sense_Laser);
+// spin
+rclc_executor_spin(&exe_sense);
+```
+
+優先度の高い順路
+
+この例では認知フェーズコールバックの後、判断フェーズのコールバック「plan」の前に障害物回避の処理obst_avoidを実行するための処理順序を示す。レーザーメッセージを受信すると、制御ループが開始される。次に、上記の例のように、集約されたIMUメッセージが要求される。その後、他のすべてのコールバックが常に実行されるようになる。これは、これらのコールバックがグローバルデータ構造を介して通信していることを前提としている。コールバックはすべて1つのスレッドで実行されるため、競合状態は発生しない。
+
+```
+...
+rcl_subscription_t sense_Laser, sense_IMU, plan, act, obst_avoid;
+rcle_let_executor_t exe;
+// initialize executors
+rclc_executor_init(&exe, &context, 5, ...);
+// define processing order
+rclc_executor_add_subscription(&exe, &sense_IMU, &my_sub_cb1, ALWAYS);
+rclc_executor_add_subscription(&exe, &sense_Laser, &my_sub_cb2, ON_NEW_DATA);
+rclc_executor_add_subscription(&exe, &obst_avoid, &my_sub_cb3, ALWAYS);
+rclc_executor_add_subscription(&exe, &plan, &my_sub_cb4, ALWAYS);
+rclc_executor_add_subscription(&exe, &act, &my_sub_cb5, ALWAYS);
+rclc_executor_set_trigger(&exe, rclc_executor_trigger_one, &sense_Laser);
+// spin
+rclc_executor_spin(&exe);
+```
+
+まとめ
+
+RCLCエクゼキューターはCアプリケーション向けのエクゼキューターであり、デフォルトのrclcppエクゼキューターセマンティクスとして利用できる。
+もし追加の決定性のある動きを追加する必要な場合にユーザーは事前に定義された逐次実行、トリガー実行およびデータ同期のためのLETセマンティクスなどに頼ることができる。rclcエクゼキューターのコンセプトは[SLL2020](https://micro.ros.org/docs/concepts/client_library/execution_management/#SLL2020)に掲載されている。
