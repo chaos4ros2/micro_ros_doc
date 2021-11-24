@@ -478,3 +478,27 @@ rmw_adapter、DDS)はマルチエクゼキューターに問題なくサポー�
 下図は一つのプロセスで二つのノードが三つのコールバックグループレベルエクゼキューターを有する時のアプローチを示す。
 
 (figure)
+
+操縦ベースノードの個々のコールバックは違うエクゼキューターに分配される（赤、黄と緑の部分）。たとえばonCmdVelとpublishWheelTicksコールバックは同じ（黄色の）エクゼキューターによってスケジューリングされる。また、違うノードのコールバックは同じエクゼキューターに登録することができる。
+
+APIの改変
+
+このセッションではエクゼキューターAPIの必要な改変について論じる：
+
+* [include/rclcpp/callback_group.hpp](https://github.com/boschresearch/ros2_rclcpp/blob/cbg-executor-foxy/rclcpp/include/rclcpp/callback_group.hpp):
+  * ノードごとに3つのリアルタイムクラス（要件）を区別するために列挙型を導入する（RealTimeCritical, SoftRealTime, BestEffort）
+  * エクゼキューターインスタンスとの関連をノードからコールバックグループに変更した。
+
+* [include/rclcpp/executor.hpp](https://github.com/boschresearch/ros2_rclcpp/tree/cbg-executor-foxy/rclcpp/include/rclcpp/executor.hpp)
+  * ノード全体に加え、個別のコールバックグループを追加および削除する機能を追加した。
+  * ノードのプライベートベクターを、コールバックグループからノードへのマップに置き換えた。
+
+* [include/rclcpp/memory_strategy.hpp](https://github.com/boschresearch/ros2_rclcpp/tree/cbg-executor-foxy/rclcpp/include/rclcpp/memory_strategy.hpp)
+  * ノードのベクトルを用するすべての関数を前述のマップに変更した。
+
+* [include/rclcpp/node.hpp](https://github.com/boschresearch/ros2_rclcpp/tree/cbg-executor-foxy/rclcpp/include/rclcpp/node.hpp) and [include/rclcpp/node_interfaces/node_base.hpp](https://github.com/boschresearch/ros2_rclcpp/tree/cbg-executor-foxy/rclcpp/include/rclcpp/node_interfaces/node_base.hpp)
+  * リアルタイムクラスのcreate_callback_group関数の拡張引数。
+  * get_associated_with_executor_atomic関数の削除。
+
+コールバックグループレベルのエクゼキューターは[PR1218](https://github.com/ros2/rclcpp/pull/1218/commits)でROS 2 rclcppにマージンされた。
+※ リンク切れ、修正は必要
