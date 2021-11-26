@@ -519,5 +519,48 @@ APIの改変
 達する時にCPUは飽和状態となる（10ms*20+40ms*20=1000ms）。より高い周波数では優先度の高いタスクはpongメッセージを送り続けることができるが、優先度の低いpongタスクは劣化していくことになる。周波数100Hzの場合優先度の高いタスクは100%のCPU使用率を必要となる。より高いPingレートでは100HzでPongメッセージを送信し続けられる。一方、優先度の低いタスクはCPUリソースを得られず、メッセージを送ることができない。
 
 テストベンチはcbg_executor_demoに提供されている。
-
 ※ リンク切れ、見つからない
+
+関連取り組み
+
+このセクションでは関連するアプローチの概要を説明し、対応するAPIのリンクを提示する。
+
+Fawkesフレームワーク
+
+[Fawkes](https://github.com/fawkesrobotics/fawkes)は認知・判断・操作フェーズ向けの同期ポイントをサポートするロボティクスソフトウェアフレームワークである。2006年からRWTH Aachenによって開発されて来た。[github.com/fawkesrobotics](https://github.com/fawkesrobotics)でソースコードを閲覧することができる。
+
+同期
+
+Fawkesは開発者に様々な同期ポイントを提供し、それらは典型的な認知・判断・操作フェーズを有するアプリケーションの実行順序を定義するには
+とても役に立つ。これら10個の同期ポイント (wake-up hooks)は以下の通り(cf. [libs/aspect/blocked_timing.h](https://github.com/fawkesrobotics/fawkes/blob/master/src/libs/aspect/blocked_timing.h)):
+
+* WAKEUP_HOOK_PRE_LOOP
+* WAKEUP_HOOK_SENSOR_ACQUIRE
+* WAKEUP_HOOK_SENSOR_PREPARE
+* WAKEUP_HOOK_SENSOR_PROCESS
+* WAKEUP_HOOK_WORLDSTATE
+* WAKEUP_HOOK_THINK
+* WAKEUP_HOOK_SKILL
+* WAKEUP_HOOK_ACT
+* WAKEUP_HOOK_ACT_EXEC
+* WAKEUP_HOOK_POST_LOOP
+
+コンパイル時の設定
+
+コンパイル時に必要な同期ポイントはモジュールのコンストラクターパラメーターとして定義される。たとえば、SENSOR_ACQUIRE時にmapLaserGenThread
+を実行する必要があると仮定すれば、実行は以下のようになる：
+
+```
+MapLaserGenThread::MapLaserGenThread()
+  :: Thread("MapLaserGenThread", Thread::OPMODE_WAITFORWAKEUP),
+     BlockedTimingAspect(BlockedTimingAspect::WAKEUP_HOOK_SENSOR_ACQUIRE),
+     TransformAspect(TransformAspect::BOTH_DEFER_PUBLISHER, "Map Laser Odometry")
+```
+
+同等に、もしNaoQiButtonThreadはSENSOR_PROCESSフックに実行する必要があれば、コンストラクターは以下となる：
+
+```
+NaoQiButtonThread::NaoQiButtonThread()
+  :: Thread("NaoQiButtonThread", Thread::OPMODE_WAITFORWAKEUP),
+     BlockedTimingAspect(BlockedTimingAspect::WAKEUP_HOOK_SENSOR_PROCESS)
+```
