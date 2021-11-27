@@ -564,3 +564,16 @@ NaoQiButtonThread::NaoQiButtonThread()
   :: Thread("NaoQiButtonThread", Thread::OPMODE_WAITFORWAKEUP),
      BlockedTimingAspect(BlockedTimingAspect::WAKEUP_HOOK_SENSOR_PROCESS)
 ```
+
+ランタイム実行
+
+ランタイム時にエクゼキューターは同期ポイントのリストを再帰的に実行し、登録されたすべてのスレッドを完了するまで実行する。その後、
+次の同期ポイントのスレッドが呼び出される。
+
+モジュール（スレッド）は、これらの認知・判断・操作の同期ポイントに独立して構成することができる。これはスレッドを並行実行させる効果
+がある。
+
+次の図は、Fawkesフレームワークのハイレベルな概要を示す。コンパイル時に認知・判断・操作のwakeupフックの設定が行われ（上の部分）、
+ランタイム時にスケジュラーはwakeupフックリストを再帰的に実行する（下の部分）：
+
+(figure)
