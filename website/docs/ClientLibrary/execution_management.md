@@ -595,3 +595,20 @@ e.g. 通常の操作よりも緊急停止の実行を優先させたい場合
 
 また、この認知・判断・操作チェーンのシングルインスタンスでは異なる実行頻度をモデル化することはできない。しかし ロボット工学では、
 最速のセンサーがチェーンを駆動させ、他のすべてのフックは同じ頻度で実行される。
+
+参考
+・[L2020] Ralph Lange: Advanced Execution Management with ROS 2, ROS-Industrial Conference, Dec 2020 [Slides]
+・[SLL2020] J. Staschulat, I. Lütkebohle and R. Lange, “The rclc Executor: Domain-specific deterministic scheduling mechanisms for ROS applications on microcontrollers: work-in-progress,” 2020 International Conference on Embedded Software (EMSOFT), Singapore, Singapore, 2020, pp. 18-19. [Paper] [Video]
+・[L2018] Ralph Lange: Callback-group-level Executor for ROS 2. Lightning talk at ROSCon 2018. Madrid, Spain. Sep 2018. [Slides] [Video]
+・[CB2019] D. Casini, T. Blaß, I. Lütkebohle, B. Brandenburg: Response-Time Analysis of ROS 2 Processing Chains under Reservation-Based Scheduling, in Euromicro-Conference on Real-Time Systems 2019. [Paper] [slides]
+・[EK2018] R. Ernst, S. Kuntz, S. Quinton, M. Simons: The Logical Execution Time Paradigm: New Perspectives for Multicore Systems, February 25-28 2018 (Dagstuhl Seminar 18092). [Paper]
+・[BP2017] A. Biondi, P. Pazzaglia, A. Balsini, M. D. Natale: Logical Execution Time Implementation and Memory Optimization Issues in AUTOSAR Applications for Multicores, International Worshop on Analysis Tools and Methodologies for Embedded and Real-Time Systems (WATERS2017), Dubrovnik, Croatia.[Paper]
+・[LL1973] Liu, C. L.; Layland, J.:Scheduling algorithms for multiprogramming in a hard real-time environment, Journal of the ACM, 20 (1): 46–61, 1973.
+・[HHK2001] Henzinger T.A., Horowitz B., Kirsch C.M. (2001) Giotto: A Time-Triggered Language for Embedded Programming. In: Henzinger T.A., Kirsch C.M. (eds) Embedded Software. EMSOFT 2001. Lecture Notes in Computer Science, vol 2211. Springer, Berlin, Heidelberg
+・[NSP2018] A. Naderlinger, S. Resmerita, and W. Pree: LET for Legacy and Model-based Applications, Proceedings of The Logical Execution Time Paradigm: New Perspectives for Multicore Systems (Dagstuhl Seminar 18092), Wadern, Germany, February 2018.
+・[KZH2015] S. Kramer, D. Ziegenbein, and A. Hamann: Real World Automotive Benchmarks For Free, International Workshop on Analysis Tools and Methodologies for Embedded adn Real-Time Sysems (WATERS), 2015.[Paper]
+
+謝辞
+
+この活動は、欧州連合のHorizon 2020のリサーチおよびイノベーションプログラム下の欧州研究評議会（ERC）から資金提供を受けている。
+（助成金契約　n° 780785）
